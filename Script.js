@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
     let data = JSON.parse(localStorage.getItem('data')) || [
-    {Km:"0",Urccls_nord:"1",Urccls_sud:"1",Prives_nord:"1",Prives_sud:"1",id:"0"},
-{Km:"1",Urccls_nord:"20.8748",Urccls_sud:"23.2136",Prives_nord:"17.3957",Prives_sud:"19.3447",id:"1"},
-{Km:"2",Urccls_nord:"21.2858",Urccls_sud:"23.6707",Prives_nord:"17.7382",Prives_sud:"19.7256",id:"2"},
+        {Km:"0",Urccls_nord:"1",Urccls_sud:"1",Prives_nord:"1",Prives_sud:"1",id:"0"},
+        {Km:"1",Urccls_nord:"20.8748",Urccls_sud:"23.2136",Prives_nord:"17.3957",Prives_sud:"19.3447",id:"1"},
+        {Km:"2",Urccls_nord:"21.2858",Urccls_sud:"23.6707",Prives_nord:"17.7382",Prives_sud:"19.7256",id:"2"},
 {Km:"3",Urccls_nord:"21.6966",Urccls_sud:"24.1275",Prives_nord:"18.0805",Prives_sud:"20.1063",id:"3"},
 {Km:"4",Urccls_nord:"22.1077",Urccls_sud:"24.5846",Prives_nord:"18.4231",Prives_sud:"20.4872",id:"4"},
 {Km:"5",Urccls_nord:"22.5184",Urccls_sud:"25.0414",Prives_nord:"18.7653",Prives_sud:"20.8678",id:"5"},
@@ -2005,110 +2005,101 @@ document.addEventListener('DOMContentLoaded', function() {
 ];
 
 // Save data to localStorage
-function saveData() {
-    localStorage.setItem('data', JSON.stringify(data));
-}
-
-function searchData() {
-    const searchQuery = document.getElementById('textSearch').value.trim().toLowerCase();
-    const filteredResults = data.filter(item => {
-        return Object.values(item).some(value => value.toString().toLowerCase().includes(searchQuery));
-    });
-    displayResults(filteredResults);
-}
-
-function displayResults(results) {
-    const tableBody = document.getElementById('tableBody');
-    tableBody.innerHTML = ''; // Clear previous results
-
-    if (results.length === 0) {
-        tableBody.innerHTML = '<tr><td colspan="7">Aucune correspondance trouvée.</td></tr>';
-    } else {
-        results.forEach(result => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${result.Km}</td>
-                <td>${result.Urccls_nord}</td>
-                <td>${result.Urccls_sud}</td>
-                <td>${result.Prives_nord}</td>
-                <td>${result.Prives_sud}</td>
-                <td align='center'>
-                    <button onclick="editRow(${result.id})" style='background: #2baf6d; color: #fff;'>
-                        <i class='fas fa-edit'></i>
-                    </button>
-                </td>
-                <td align='center'>
-                    <button onclick="deleteRow(${result.id})" style='background: #af2b37; color: #fff;'>
-                        <i class='fas fa-trash'></i>
-                    </button>
-                </td>
-            `;
-            tableBody.appendChild(row);
-        });
+    function saveData() {
+        localStorage.setItem('data', JSON.stringify(data));
     }
-}
 
-function editRow(id) {
-    const item = data.find(item => item.id == id);
-    if (item) {
-        const newKm = prompt("Enter new Km:", item.Km);
-        const newUrccls_nord = prompt("Enter new Urccls nord:", item.Urccls_nord);
-        const newUrccls_sud = prompt("Enter new Urccls sud:", item.Urccls_sud);
-        const newPrives_nord = prompt("Enter new Prives nord:", item.Prives_nord);
-        const newPrives_sud = prompt("Enter new Prives sud:", item.Prives_sud);
-        if (newKm && newUrccls_nord && newUrccls_sud && newPrives_nord && newPrives_sud) {
-            item.Km = newKm;
-            item.Urccls_nord = newUrccls_nord;
-            item.Urccls_sud = newUrccls_sud;
-            item.Prives_nord = newPrives_nord;
-            item.Prives_sud = newPrives_sud;
-            saveData();
-            displayResults(data);
+    function searchData() {
+        const searchQuery = document.getElementById('textSearch').value.trim().toLowerCase();
+        const filteredResults = data.filter(item => {
+            return Object.values(item).some(value => value.toString().toLowerCase().includes(searchQuery));
+        });
+        displayResults(filteredResults);
+    }
+
+    function displayResults(results) {
+        const tableBody = document.getElementById('tableBody');
+        tableBody.innerHTML = ''; // Clear previous results
+
+        if (results.length === 0) {
+            tableBody.innerHTML = '<tr><td colspan="7">Aucune correspondance trouvée.</td></tr>';
+        } else {
+            results.forEach(result => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${result.Km}</td>
+                    <td>${result.Urccls_nord}</td>
+                    <td>${result.Urccls_sud}</td>
+                    <td>${result.Prives_nord}</td>
+                    <td>${result.Prives_sud}</td>
+                    <td align='center'>
+                        <button onclick="editRow(${result.id})" style='background: #2baf6d; color: #fff;'>
+                            <i class='fas fa-edit'></i>
+                        </button>
+                    </td>
+                    <td align='center'>
+                        <button onclick="deleteRow(${result.id})" style='background: #af2b37; color: #fff;'>
+                            <i class='fas fa-trash'></i>
+                        </button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
         }
     }
-}
 
-function deleteRow(id) {
-    const index = data.findIndex(item => item.id == id);
-    if (index > -1) {
-        data.splice(index, 1);
+    function editRow(id) {
+        const item = data.find(item => item.id == id);
+        if (item) {
+            const newKm = prompt("Enter new Km:", item.Km);
+            const newUrccls_nord = prompt("Enter new Urccls nord:", item.Urccls_nord);
+            const newUrccls_sud = prompt("Enter new Urccls sud:", item.Urccls_sud);
+            const newPrives_nord = prompt("Enter new Prives nord:", item.Prives_nord);
+            const newPrives_sud = prompt("Enter new Prives sud:", item.Prives_sud);
+            if (newKm && newUrccls_nord && newUrccls_sud && newPrives_nord && newPrives_sud) {
+                item.Km = newKm;
+                item.Urccls_nord = newUrccls_nord;
+                item.Urccls_sud = newUrccls_sud;
+                item.Prives_nord = newPrives_nord;
+                item.Prives_sud = newPrives_sud;
+                saveData();
+                displayResults(data);
+            } else {
+                alert("All fields must be filled!");
+            }
+        }
+    }
+
+    function deleteRow(id) {
+        data = data.filter(item => item.id != id);
         saveData();
         displayResults(data);
     }
-}
 
-function addRow() {
-    const newKm = prompt("Enter Km:");
-    const newUrccls_nord = prompt("Enter Urccls nord:");
-    const newUrccls_sud = prompt("Enter Urccls sud:");
-    const newPrives_nord = prompt("Enter Prives nord:");
-    const newPrives_sud = prompt("Enter Prives sud:");
-    if (newKm && newUrccls_nord && newUrccls_sud && newPrives_nord && newPrives_sud) {
-        const newId = data.length ? Math.max(...data.map(item => item.id)) + 1 : 1;
-        data.push({ Km: newKm, Urccls_nord: newUrccls_nord, Urccls_sud: newUrccls_sud, Prives_nord: newPrives_nord, Prives_sud: newPrives_sud, id: newId });
-        saveData();
-        displayResults(data);
-    }
-}
+    window.addRow = function() {
+        const newKm = prompt("Enter Km:");
+        const newUrccls_nord = prompt("Enter Urccls nord:");
+        const newUrccls_sud = prompt("Enter Urccls sud:");
+        const newPrives_nord = prompt("Enter Prives nord:");
+        const newPrives_sud = prompt("Enter Prives sud:");
 
-document.getElementById('textSearch').addEventListener('keydown', function(event) {
-    if (event.key === 'Enter') {
-        event.preventDefault(); // Prevent default form submission if inside a form
-        searchData(); // Call the search function
-    }
-});
+        if (newKm && newUrccls_nord && newUrccls_sud && newPrives_nord && newPrives_sud) {
+            const newRow = {
+                Km: newKm,
+                Urccls_nord: newUrccls_nord,
+                Urccls_sud: newUrccls_sud,
+                Prives_nord: newPrives_nord,
+                Prives_sud: newPrives_sud,
+                id: data.length ? data[data.length - 1].id + 1 : 1
+            };
+            data.push(newRow);
+            saveData();
+            displayResults(data);
+        } else {
+            alert("All fields must be filled!");
+        }
+    };
 
-document.addEventListener('DOMContentLoaded', function() {
+    // Initial display of results
     displayResults(data);
 });
-
-// Prevent right-click context menu and disable certain key combinations
-document.addEventListener('contextmenu', function(e) {
-    e.preventDefault();
-});
-
-document.onkeydown = function(e) {
-    if (e.ctrlKey && (e.key === 'u' || e.key === 's' || e.key === 'c' || e.key === 'p')) {
-        e.preventDefault();
-    }
-};
